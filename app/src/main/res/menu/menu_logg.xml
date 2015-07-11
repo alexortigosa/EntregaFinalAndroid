@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".LoggActivity" >
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="20" app:showAsAction="ifRoom" android:icon="@drawable/ic_launcher" >
+
+    </item>
+    <item android:id="@+id/action_loggin" android:title="Log in"
+        android:orderInCategory="100" app:showAsAction="never" >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:id="@+id/action_twitter" android:title="Twitter"
+                android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/ic_launcher"/>
+            <item android:id="@+id/action_BBDD" android:title="BBDD"
+                android:orderInCategory="10" app:showAsAction="never" android:icon="@drawable/ic_launcher"/>
+        </menu>
+    </item>
+    <item android:id="@+id/action_exit" android:title="exit"
+        android:orderInCategory="30" app:showAsAction="never" />
+
+
+</menu>

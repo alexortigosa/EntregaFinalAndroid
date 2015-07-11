@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AplicacionFinal</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="entrar">Entrar</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_accept_loggin">AcceptLoggin</string>
+    <string name="title_activity_decline_loggin">DeclineLoggin</string>
+    <string name="title_activity_calc">CalcActivity</string>
+    <string name="title_activity_memory">MemoryActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_media_player">MediaPlayerActivity</string>
+    <string name="title_activity_gps">GPSActivity</string>
+
+</resources>
