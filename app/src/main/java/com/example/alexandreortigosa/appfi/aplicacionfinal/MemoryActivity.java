@@ -11,7 +11,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MemoryActivity extends FragmentActivity implements RankingMem.OnFragmentInteractionListener,Memory.OnFragmentInteractionListener{
+public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFragmentInteractionListener,Memory.OnFragmentInteractionListener{
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_memory, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id){
+
+            case R.id.action_nuevojuego:
+                nuevoJuego();
+
+            default:
+                return true;
+
+        }
+
+       //return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +54,9 @@ public class MemoryActivity extends FragmentActivity implements RankingMem.OnFra
         tabLayout.setupWithViewPager(viewPager);
     }
 
-
+    private void nuevoJuego(){
+        int a;
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
 

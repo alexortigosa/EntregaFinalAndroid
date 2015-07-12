@@ -1,21 +1,26 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -49,6 +54,10 @@ public class Memory extends Fragment implements View.OnClickListener{
     private Button b9;
     private Button b10;
     private Button b11;
+    private Button b12;
+    private Button b13;
+    private Button b14;
+    private Button b15;
     private Button buttonPrev;
     private Button buttonPres;
     private View myFragmentView;
@@ -57,6 +66,7 @@ public class Memory extends Fragment implements View.OnClickListener{
     private int[] prevClick;
     private int countIntent;
     private int globalIntents;
+    private TextView intentos;
 
 
     // TODO: Rename and change types of parameters
@@ -138,9 +148,22 @@ public class Memory extends Fragment implements View.OnClickListener{
 
         b11=(Button) myFragmentView.findViewById(R.id.button25);
         b11.setOnClickListener(this);
+
+        b12=(Button) myFragmentView.findViewById(R.id.button26);
+        b12.setOnClickListener(this);
+
+        b13=(Button) myFragmentView.findViewById(R.id.button27);
+        b13.setOnClickListener(this);
+
+        b14=(Button) myFragmentView.findViewById(R.id.button28);
+        b14.setOnClickListener(this);
+
+        b15=(Button) myFragmentView.findViewById(R.id.button29);
+        b15.setOnClickListener(this);
+        intentos = (TextView) myFragmentView.findViewById((R.id.textView6));
         globalIntents=0;
-        gameTableClick = new char[3][4];
-        gameTableDist = new int[3][4];
+        gameTableClick = new char[4][4];
+        gameTableDist = new int[4][4];
         prevClick = new int[2];
         prevClick[0]=-1;
         prevClick[1]=-1;
@@ -157,7 +180,6 @@ public class Memory extends Fragment implements View.OnClickListener{
             mListener.onFragmentInteractionMem(uri);
         }
     }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -168,13 +190,11 @@ public class Memory extends Fragment implements View.OnClickListener{
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
     @Override
     public void onClick(View v) {
 
@@ -228,34 +248,48 @@ public class Memory extends Fragment implements View.OnClickListener{
                 CheckClick(2, 3, b11);
                 //new MyTask().execute(R.id.button25);
                 break;
+            case R.id.button26:
+                CheckClick(3, 0, b12);
+                //new MyTask().execute(R.id.button25);
+                break;
+            case R.id.button27:
+                CheckClick(3, 1, b13);
+                //new MyTask().execute(R.id.button25);
+                break;
+            case R.id.button28:
+                CheckClick(3, 2, b14);
+                //new MyTask().execute(R.id.button25);
+                break;
+            case R.id.button29:
+                CheckClick(3, 3, b15);
+                //new MyTask().execute(R.id.button25);
+                break;
 
             default:
                 break;
         }
 
     }
-
     private void generateRandomTable(){
-        int[] cuentas = new int[7];
+        int[] cuentas = new int[9];
         for (int i=0;i<cuentas.length;i++){
             cuentas[i]=0;
         }
 
         for (int i=0;i<gameTableDist.length;i++){
             for (int a=0;a<gameTableDist[i].length;a++){
-                int aux=randInt(1, 6);
+                int aux=randInt(1, 8);
                 while (gameTableDist[i][a]==0) {
                     if(cuentas[aux]<2) {
                         gameTableDist[i][a] = aux;
                         cuentas[aux]++;
                     }
-                    aux=randInt(1, 6);
+                    aux=randInt(1, 8);
 
                 }
             }
         }
     }
-
     private void initClickTable(){
 
         for (int i=0;i<gameTableClick.length;i++){
@@ -264,7 +298,6 @@ public class Memory extends Fragment implements View.OnClickListener{
             }
         }
     }
-
     private void initImages(){
 
 
@@ -292,11 +325,14 @@ public class Memory extends Fragment implements View.OnClickListener{
                 b8.setBackgroundResource(R.drawable.interrogantesmall);
 
                 b11.setBackgroundResource(R.drawable.interrogantesmall);
+                b12.setBackgroundResource(R.drawable.interrogantesmall);
+                b13.setBackgroundResource(R.drawable.interrogantesmall);
+                b14.setBackgroundResource(R.drawable.interrogantesmall);
+                b15.setBackgroundResource(R.drawable.interrogantesmall);
 
 
 
     }
-
     private void CheckClick(int x, int y, Button boton){
 
         switch (boton.getId()){
@@ -337,6 +373,18 @@ public class Memory extends Fragment implements View.OnClickListener{
             case R.id.button25:
                 b11.setBackgroundResource(getDrawable(2,3));
                 break;
+            case R.id.button26:
+                b12.setBackgroundResource(getDrawable(3,0));
+                break;
+            case R.id.button27:
+                b13.setBackgroundResource(getDrawable(3,1));
+                break;
+            case R.id.button28:
+                b14.setBackgroundResource(getDrawable(3,2));
+                break;
+            case R.id.button29:
+                b15.setBackgroundResource(getDrawable(3,3));
+                break;
             default:
                 break;
 
@@ -346,10 +394,14 @@ public class Memory extends Fragment implements View.OnClickListener{
             if (gameTableDist[prevClick[0]][prevClick[1]] == gameTableDist[x][y] && !getSameClick(x, y)) {
                 gameTableClick[prevClick[0]][prevClick[1]] = 'S';
                 gameTableClick[x][y] = 'S';
+                CheckFinish();
             }
             else new MyTask(boton,buttonPrev).execute();
 
             countIntent=0;
+            globalIntents++;
+            intentos.setText(globalIntents+"");
+
         }
 
 
@@ -367,6 +419,19 @@ public class Memory extends Fragment implements View.OnClickListener{
         prevClick[1]=y;
 
 
+    }
+    private void CheckFinish(){
+        int sum=0;
+        for (int i=0;i<gameTableClick.length;i++){
+            for (int a=0;a<gameTableClick[i].length;a++){
+                if(gameTableClick[i][a]== 'N') sum++;
+            }
+        }
+        if (sum==0) end();
+    }
+    private void end(){
+        DialogFragment newDialog = new AlertaDialog();
+        newDialog.show(getActivity().getSupportFragmentManager(),"Prueba");
     }
     private void launchToast(String text){
         CharSequence textAux = text;
@@ -396,6 +461,12 @@ public class Memory extends Fragment implements View.OnClickListener{
             case 6:
                 ret=R.drawable.card6;
                 break;
+            case 7:
+                ret=R.drawable.card7;
+                break;
+            case 8:
+                ret=R.drawable.card8;
+                break;
             default:
                 ret=R.drawable.notfound;
                 break;
@@ -409,11 +480,6 @@ public class Memory extends Fragment implements View.OnClickListener{
         return false;
 
     }
-
-
-
-
-
     private int randInt(int min, int max){
         // Usually this can be a field rather than a method variable
         Random rand = new Random();
@@ -438,8 +504,6 @@ public class Memory extends Fragment implements View.OnClickListener{
         // TODO: Update argument type and name
         public void onFragmentInteractionMem(Uri uri);
     }
-
-
     public class MyTask extends AsyncTask<Void, Integer, Void> {
 
         private Button but;
@@ -531,6 +595,22 @@ public class Memory extends Fragment implements View.OnClickListener{
                     if(gameTableClick[2][3]!='S')
                     b11.setBackgroundResource(R.drawable.interrogantesmall);
                     break;
+                case R.id.button26:
+                    if(gameTableClick[3][0]!='S')
+                        b12.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button27:
+                    if(gameTableClick[3][1]!='S')
+                        b13.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button28:
+                    if(gameTableClick[3][2]!='S')
+                        b14.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button29:
+                    if(gameTableClick[3][3]!='S')
+                        b15.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
                 default:
                     break;
 
@@ -586,6 +666,22 @@ public class Memory extends Fragment implements View.OnClickListener{
                     if(gameTableClick[2][3]!='S')
                         b11.setBackgroundResource(R.drawable.interrogantesmall);
                     break;
+                case R.id.button26:
+                    if(gameTableClick[3][0]!='S')
+                        b12.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button27:
+                    if(gameTableClick[3][1]!='S')
+                        b13.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button28:
+                    if(gameTableClick[3][2]!='S')
+                        b14.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button29:
+                    if(gameTableClick[3][3]!='S')
+                        b15.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
                 default:
                     break;
 
@@ -598,7 +694,6 @@ public class Memory extends Fragment implements View.OnClickListener{
 
 
     }
-
     public class CustomButton extends Button{
         private int x;
         private int y;
@@ -654,6 +749,26 @@ public class Memory extends Fragment implements View.OnClickListener{
             this.setBackgroundResource(R.drawable.interrogantesmall);
         }
 
+    }
+    public class AlertaDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Partida finalizada")
+                    .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                        }
+                    });
+                    /*.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });*/
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 
 
