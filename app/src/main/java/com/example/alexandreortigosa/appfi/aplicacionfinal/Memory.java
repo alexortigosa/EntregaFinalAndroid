@@ -121,6 +121,7 @@ public class Memory extends Fragment implements View.OnClickListener{
         gameTableDist = new int[3][4];
         generateRandomTable();
         initClickTable();
+        initImages();
         return myFragmentView;
     }
 
@@ -196,6 +197,15 @@ public class Memory extends Fragment implements View.OnClickListener{
             for (int a=0;a<gameTableClick[i].length;a++){
                 gameTableClick[i][a]= 'N';
             }
+        }
+    }
+
+    private void initImages(){
+
+        switch (gameTableDist[0][0]){
+            case 1:
+                //b0.setBackgroundResource();
+
         }
     }
 
