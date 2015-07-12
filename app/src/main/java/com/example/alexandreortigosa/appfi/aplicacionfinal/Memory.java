@@ -1,13 +1,16 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +49,14 @@ public class Memory extends Fragment implements View.OnClickListener{
     private Button b9;
     private Button b10;
     private Button b11;
+    private Button buttonPrev;
+    private Button buttonPres;
     private View myFragmentView;
     private char[][] gameTableClick;
     private int[][] gameTableDist;
     private int[] prevClick;
     private int countIntent;
+    private int globalIntents;
 
 
     // TODO: Rename and change types of parameters
@@ -99,28 +105,40 @@ public class Memory extends Fragment implements View.OnClickListener{
         myFragmentView=inflater.inflate(R.layout.fragment_memory, container, false);
         b0=(Button) myFragmentView.findViewById(R.id.button14);
         b0.setOnClickListener(this);
+
         b1=(Button) myFragmentView.findViewById(R.id.button15);
         b1.setOnClickListener(this);
+
         b2=(Button) myFragmentView.findViewById(R.id.button16);
         b2.setOnClickListener(this);
+
         b3=(Button) myFragmentView.findViewById(R.id.button17);
         b3.setOnClickListener(this);
+
         b4=(Button) myFragmentView.findViewById(R.id.button18);
         b4.setOnClickListener(this);
+
         b5=(Button) myFragmentView.findViewById(R.id.button19);
         b5.setOnClickListener(this);
+
         b6=(Button) myFragmentView.findViewById(R.id.button20);
         b6.setOnClickListener(this);
+
         b7=(Button) myFragmentView.findViewById(R.id.button21);
         b7.setOnClickListener(this);
+
         b8=(Button) myFragmentView.findViewById(R.id.button22);
         b8.setOnClickListener(this);
+
         b9=(Button) myFragmentView.findViewById(R.id.button23);
         b9.setOnClickListener(this);
+
         b10=(Button) myFragmentView.findViewById(R.id.button24);
         b10.setOnClickListener(this);
+
         b11=(Button) myFragmentView.findViewById(R.id.button25);
         b11.setOnClickListener(this);
+        globalIntents=0;
         gameTableClick = new char[3][4];
         gameTableDist = new int[3][4];
         prevClick = new int[2];
@@ -163,51 +181,51 @@ public class Memory extends Fragment implements View.OnClickListener{
         countIntent++;
         switch (v.getId()){
             case R.id.button14:
-                CheckClick(0, 0, R.id.button14);
+                CheckClick(0, 0, b0);
                // new MyTask().execute(R.id.button14);
                 break;
             case R.id.button15:
-                CheckClick(1, 0, R.id.button15);
+                CheckClick(1, 0, b1);
                 //new MyTask().execute(R.id.button15);
                 break;
             case R.id.button16:
-                CheckClick(2, 0, R.id.button16);
+                CheckClick(2, 0,b2);
                 //new MyTask().execute(R.id.button16);
                 break;
             case R.id.button17:
-                CheckClick(0, 1, R.id.button17);
+                CheckClick(0, 1, b3);
                 //new MyTask().execute(R.id.button17);
                 break;
             case R.id.button18:
-                CheckClick(1, 1, R.id.button18);
+                CheckClick(1, 1, b4);
                 //new MyTask().execute(R.id.button18);
                 break;
             case R.id.button19:
-                CheckClick(2, 1, R.id.button19);
+                CheckClick(2, 1, b5);
                 //new MyTask().execute(R.id.button19);
                 break;
             case R.id.button20:
-                CheckClick(0, 2, R.id.button20);
+                CheckClick(0, 2, b6);
                 //new MyTask().execute(R.id.button20);
                 break;
             case R.id.button21:
-                CheckClick(1, 2, R.id.button21);
+                CheckClick(1, 2, b7);
                 //new MyTask().execute(R.id.button21);
                 break;
             case R.id.button22:
-                CheckClick(2, 2, R.id.button22);
+                CheckClick(2, 2, b8);
                 //new MyTask().execute(R.id.button22);
                 break;
             case R.id.button23:
-                CheckClick(0, 3, R.id.button23);
+                CheckClick(0, 3, b9);
                 //new MyTask().execute(R.id.button23);
                 break;
             case R.id.button24:
-                CheckClick(1, 3, R.id.button24);
+                CheckClick(1, 3, b10);
                 //new MyTask().execute(R.id.button24);
                 break;
             case R.id.button25:
-                CheckClick(2, 3, R.id.button25);
+                CheckClick(2, 3, b11);
                 //new MyTask().execute(R.id.button25);
                 break;
 
@@ -279,12 +297,58 @@ public class Memory extends Fragment implements View.OnClickListener{
 
     }
 
-    private void CheckClick(int x, int y, int boton){
+    private void CheckClick(int x, int y, Button boton){
+
+        switch (boton.getId()){
+            case R.id.button14:
+                b0.setBackgroundResource(getDrawable(0,0));
+
+                break;
+            case R.id.button15:
+                b1.setBackgroundResource(getDrawable(1,0));
+                break;
+            case R.id.button16:
+                b2.setBackgroundResource(getDrawable(2,0));
+                break;
+            case R.id.button17:
+                b3.setBackgroundResource(getDrawable(0,1));
+                break;
+            case R.id.button18:
+                b4.setBackgroundResource(getDrawable(1,1));
+                break;
+            case R.id.button19:
+                b5.setBackgroundResource(getDrawable(2,1));
+                break;
+            case R.id.button20:
+                b6.setBackgroundResource(getDrawable(0,2));
+                break;
+            case R.id.button21:
+                b7.setBackgroundResource(getDrawable(1,2));
+                break;
+            case R.id.button22:
+                b8.setBackgroundResource(getDrawable(2,2));
+                break;
+            case R.id.button23:
+                b9.setBackgroundResource(getDrawable(0,3));
+                break;
+            case R.id.button24:
+                b10.setBackgroundResource(getDrawable(1,3));
+                break;
+            case R.id.button25:
+                b11.setBackgroundResource(getDrawable(2,3));
+                break;
+            default:
+                break;
+
+        }
+        //boton.setImage();
         if(prevClick[0]!=-1 && countIntent==2) {
             if (gameTableDist[prevClick[0]][prevClick[1]] == gameTableDist[x][y] && !getSameClick(x, y)) {
                 gameTableClick[prevClick[0]][prevClick[1]] = 'S';
                 gameTableClick[x][y] = 'S';
             }
+            else new MyTask(boton,buttonPrev).execute();
+
             countIntent=0;
         }
 
@@ -298,9 +362,10 @@ public class Memory extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
+        buttonPrev =boton;
         prevClick[0]=x;
         prevClick[1]=y;
-        new MyTask(boton).execute(boton);
+
 
     }
     private void launchToast(String text){
@@ -375,72 +440,33 @@ public class Memory extends Fragment implements View.OnClickListener{
     }
 
 
-    public class MyTask extends AsyncTask<Integer, Integer, Integer> {
+    public class MyTask extends AsyncTask<Void, Integer, Void> {
 
-        private int but;
+        private Button but;
+        private Button prevBut;
 
-        public MyTask(int b){
-            this.but=b;
+        public MyTask(Button act, Button prev){
+            this.but=act;
+            this.prevBut=prev;
         }
 
         @Override
-        protected Integer doInBackground(Integer... params) {
+        protected Void doInBackground(Void... params) {
                 //Button baux =(Button) myFragmentView.findViewById(R.id.button14);
             try{
-                sleep(1000);
+                sleep(2000);
             }
             catch(InterruptedException e){
                 e.printStackTrace();
             }
 
-            return params[0];
+            return null;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            switch (but){
-                case R.id.button14:
-                    b0.setBackgroundResource(getDrawable(0,0));
 
-                    break;
-                case R.id.button15:
-                    b1.setBackgroundResource(getDrawable(1,0));
-                    break;
-                case R.id.button16:
-                    b2.setBackgroundResource(getDrawable(2,0));
-                    break;
-                case R.id.button17:
-                    b3.setBackgroundResource(getDrawable(0,1));
-                    break;
-                case R.id.button18:
-                    b4.setBackgroundResource(getDrawable(1,1));
-                    break;
-                case R.id.button19:
-                    b5.setBackgroundResource(getDrawable(2,1));
-                    break;
-                case R.id.button20:
-                    b6.setBackgroundResource(getDrawable(0,2));
-                    break;
-                case R.id.button21:
-                    b7.setBackgroundResource(getDrawable(1,2));
-                    break;
-                case R.id.button22:
-                    b8.setBackgroundResource(getDrawable(2,2));
-                    break;
-                case R.id.button23:
-                    b9.setBackgroundResource(getDrawable(0,3));
-                    break;
-                case R.id.button24:
-                    b10.setBackgroundResource(getDrawable(1,3));
-                    break;
-                case R.id.button25:
-                    b11.setBackgroundResource(getDrawable(2,3));
-                    break;
-                default:
-                    break;
-
-            }
 
         }
 
@@ -452,10 +478,10 @@ public class Memory extends Fragment implements View.OnClickListener{
         }
 
         @Override
-        protected void onPostExecute(Integer aVoid) {
+        protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            switch (aVoid){
+            switch (but.getId()){
                 case R.id.button14:
                     if(gameTableClick[0][0]!='S')
                     b0.setBackgroundResource(R.drawable.interrogantesmall);
@@ -510,10 +536,126 @@ public class Memory extends Fragment implements View.OnClickListener{
 
             }
 
+            switch (prevBut.getId()){
+                case R.id.button14:
+                    if(gameTableClick[0][0]!='S')
+                        b0.setBackgroundResource(R.drawable.interrogantesmall);
+
+                    break;
+                case R.id.button15:
+                    if(gameTableClick[1][0]!='S')
+                        b1.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button16:
+                    if(gameTableClick[2][0]!='S')
+                        b2.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button17:
+                    if(gameTableClick[0][1]!='S')
+                        b3.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button18:
+                    if(gameTableClick[1][1]!='S')
+                        b4.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button19:
+                    if(gameTableClick[2][1]!='S')
+                        b5.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button20:
+                    if(gameTableClick[0][2]!='S')
+                        b6.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button21:
+                    if(gameTableClick[1][2]!='S')
+                        b7.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button22:
+                    if(gameTableClick[2][2]!='S')
+                        b8.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button23:
+                    if(gameTableClick[0][3]!='S')
+                        b9.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button24:
+                    if(gameTableClick[1][3]!='S')
+                        b10.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button25:
+                    if(gameTableClick[2][3]!='S')
+                        b11.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                default:
+                    break;
+
+            }
+            //this.prevBut.setImageInterrogante();
+            //this.but.setImageInterrogante();
+
 
         }
 
 
     }
+
+    public class CustomButton extends Button{
+        private int x;
+        private int y;
+
+
+        public CustomButton(Context context) {
+            super(context);
+        }
+
+        public CustomButton(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public CustomButton(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+        }
+
+
+
+        public void setPosition(int auxX, int auxY){
+            this.x=auxX;
+            this.y=auxY;
+        }
+
+        public void setImage(){
+            switch (gameTableDist[this.x][this.y]){
+                case 1:
+                    this.setBackgroundResource(R.drawable.card1);
+                    break;
+                case 2:
+                    this.setBackgroundResource(R.drawable.card2);
+                    break;
+                case 3:
+                    this.setBackgroundResource(R.drawable.card3);
+                    break;
+                case 4:
+                    this.setBackgroundResource(R.drawable.card4);
+                    break;
+                case 5:
+                    this.setBackgroundResource(R.drawable.card5);
+                    break;
+                case 6:
+                    this.setBackgroundResource(R.drawable.card6);
+                    break;
+                default:
+                    this.setBackgroundResource(R.drawable.notfound);
+                    break;
+
+            }
+        }
+
+        public void setImageInterrogante(){
+            this.setBackgroundResource(R.drawable.interrogantesmall);
+        }
+
+    }
+
+
 
 }
