@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +49,8 @@ public class Memory extends Fragment implements View.OnClickListener{
     private View myFragmentView;
     private char[][] gameTableClick;
     private int[][] gameTableDist;
+    private int[] prevClick;
+    private int countIntent;
 
 
     // TODO: Rename and change types of parameters
@@ -119,6 +123,10 @@ public class Memory extends Fragment implements View.OnClickListener{
         b11.setOnClickListener(this);
         gameTableClick = new char[3][4];
         gameTableDist = new int[3][4];
+        prevClick = new int[2];
+        prevClick[0]=-1;
+        prevClick[1]=-1;
+        countIntent=0;
         generateRandomTable();
         initClickTable();
         initImages();
@@ -151,21 +159,60 @@ public class Memory extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+
+        countIntent++;
         switch (v.getId()){
             case R.id.button14:
-                Context context = getActivity().getApplicationContext();
-                CharSequence text = "Hello toast!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
+                CheckClick(0, 0, R.id.button14);
+               // new MyTask().execute(R.id.button14);
                 break;
-            case R.id.button1:
-
+            case R.id.button15:
+                CheckClick(1, 0, R.id.button15);
+                //new MyTask().execute(R.id.button15);
+                break;
+            case R.id.button16:
+                CheckClick(2, 0, R.id.button16);
+                //new MyTask().execute(R.id.button16);
+                break;
+            case R.id.button17:
+                CheckClick(0, 1, R.id.button17);
+                //new MyTask().execute(R.id.button17);
+                break;
+            case R.id.button18:
+                CheckClick(1, 1, R.id.button18);
+                //new MyTask().execute(R.id.button18);
+                break;
+            case R.id.button19:
+                CheckClick(2, 1, R.id.button19);
+                //new MyTask().execute(R.id.button19);
+                break;
+            case R.id.button20:
+                CheckClick(0, 2, R.id.button20);
+                //new MyTask().execute(R.id.button20);
+                break;
+            case R.id.button21:
+                CheckClick(1, 2, R.id.button21);
+                //new MyTask().execute(R.id.button21);
+                break;
+            case R.id.button22:
+                CheckClick(2, 2, R.id.button22);
+                //new MyTask().execute(R.id.button22);
+                break;
+            case R.id.button23:
+                CheckClick(0, 3, R.id.button23);
+                //new MyTask().execute(R.id.button23);
+                break;
+            case R.id.button24:
+                CheckClick(1, 3, R.id.button24);
+                //new MyTask().execute(R.id.button24);
+                break;
+            case R.id.button25:
+                CheckClick(2, 3, R.id.button25);
+                //new MyTask().execute(R.id.button25);
                 break;
 
-
+            default:
+                break;
         }
 
     }
@@ -202,12 +249,103 @@ public class Memory extends Fragment implements View.OnClickListener{
 
     private void initImages(){
 
-        switch (gameTableDist[0][0]){
+
+                b0.setBackgroundResource(R.drawable.interrogantesmall);
+
+
+                b3.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b6.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b9.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b1.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b4.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b7.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b10.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b2.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b5.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b8.setBackgroundResource(R.drawable.interrogantesmall);
+
+                b11.setBackgroundResource(R.drawable.interrogantesmall);
+
+
+
+    }
+
+    private void CheckClick(int x, int y, int boton){
+        if(prevClick[0]!=-1 && countIntent==2) {
+            if (gameTableDist[prevClick[0]][prevClick[1]] == gameTableDist[x][y] && !getSameClick(x, y)) {
+                gameTableClick[prevClick[0]][prevClick[1]] = 'S';
+                gameTableClick[x][y] = 'S';
+            }
+            countIntent=0;
+        }
+
+
+        switch (gameTableClick[x][y]) {
+            case 'N':
+                break;
+            case 'S':
+                launchToast("Imagen desbloqueada");
+                break;
+            default:
+                break;
+        }
+        prevClick[0]=x;
+        prevClick[1]=y;
+        new MyTask(boton).execute(boton);
+
+    }
+    private void launchToast(String text){
+        CharSequence textAux = text;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), textAux, duration);
+        toast.show();
+    }
+    private int getDrawable(int x,int y){
+        int ret;
+        switch (gameTableDist[x][y]){
             case 1:
-                //b0.setBackgroundResource();
+               ret=R.drawable.card1;
+                break;
+            case 2:
+                ret=R.drawable.card2;
+                break;
+            case 3:
+                ret=R.drawable.card3;
+                break;
+            case 4:
+                ret=R.drawable.card4;
+                break;
+            case 5:
+                ret=R.drawable.card5;
+                break;
+            case 6:
+                ret=R.drawable.card6;
+                break;
+            default:
+                ret=R.drawable.notfound;
+                break;
 
         }
+
+        return ret;
     }
+    private boolean getSameClick(int x,int y) {
+        if(prevClick[0]==x&&prevClick[1]==y) return true;
+        return false;
+
+    }
+
+
 
 
 
@@ -237,18 +375,72 @@ public class Memory extends Fragment implements View.OnClickListener{
     }
 
 
-    public class MyTask extends AsyncTask<Integer, Integer, Void> {
+    public class MyTask extends AsyncTask<Integer, Integer, Integer> {
+
+        private int but;
+
+        public MyTask(int b){
+            this.but=b;
+        }
 
         @Override
-        protected Void doInBackground(Integer... params) {
+        protected Integer doInBackground(Integer... params) {
+                //Button baux =(Button) myFragmentView.findViewById(R.id.button14);
+            try{
+                sleep(1000);
+            }
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
 
-            return null;
+            return params[0];
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            switch (but){
+                case R.id.button14:
+                    b0.setBackgroundResource(getDrawable(0,0));
 
+                    break;
+                case R.id.button15:
+                    b1.setBackgroundResource(getDrawable(1,0));
+                    break;
+                case R.id.button16:
+                    b2.setBackgroundResource(getDrawable(2,0));
+                    break;
+                case R.id.button17:
+                    b3.setBackgroundResource(getDrawable(0,1));
+                    break;
+                case R.id.button18:
+                    b4.setBackgroundResource(getDrawable(1,1));
+                    break;
+                case R.id.button19:
+                    b5.setBackgroundResource(getDrawable(2,1));
+                    break;
+                case R.id.button20:
+                    b6.setBackgroundResource(getDrawable(0,2));
+                    break;
+                case R.id.button21:
+                    b7.setBackgroundResource(getDrawable(1,2));
+                    break;
+                case R.id.button22:
+                    b8.setBackgroundResource(getDrawable(2,2));
+                    break;
+                case R.id.button23:
+                    b9.setBackgroundResource(getDrawable(0,3));
+                    break;
+                case R.id.button24:
+                    b10.setBackgroundResource(getDrawable(1,3));
+                    break;
+                case R.id.button25:
+                    b11.setBackgroundResource(getDrawable(2,3));
+                    break;
+                default:
+                    break;
+
+            }
 
         }
 
@@ -260,9 +452,63 @@ public class Memory extends Fragment implements View.OnClickListener{
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-
+        protected void onPostExecute(Integer aVoid) {
             super.onPostExecute(aVoid);
+
+            switch (aVoid){
+                case R.id.button14:
+                    if(gameTableClick[0][0]!='S')
+                    b0.setBackgroundResource(R.drawable.interrogantesmall);
+
+                    break;
+                case R.id.button15:
+                    if(gameTableClick[1][0]!='S')
+                    b1.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button16:
+                    if(gameTableClick[2][0]!='S')
+                    b2.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button17:
+                    if(gameTableClick[0][1]!='S')
+                    b3.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button18:
+                    if(gameTableClick[1][1]!='S')
+                    b4.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button19:
+                    if(gameTableClick[2][1]!='S')
+                    b5.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button20:
+                    if(gameTableClick[0][2]!='S')
+                    b6.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button21:
+                    if(gameTableClick[1][2]!='S')
+                    b7.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button22:
+                    if(gameTableClick[2][2]!='S')
+                    b8.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button23:
+                    if(gameTableClick[0][3]!='S')
+                    b9.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button24:
+                    if(gameTableClick[1][3]!='S')
+                    b10.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                case R.id.button25:
+                    if(gameTableClick[2][3]!='S')
+                    b11.setBackgroundResource(R.drawable.interrogantesmall);
+                    break;
+                default:
+                    break;
+
+            }
 
 
         }
