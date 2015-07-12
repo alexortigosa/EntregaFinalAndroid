@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Random;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +46,7 @@ public class Memory extends Fragment implements View.OnClickListener{
     private Button b11;
     private View myFragmentView;
     private char[][] gameTableClick;
-    private char[][] gameTableDist;
+    private int[][] gameTableDist;
 
 
     // TODO: Rename and change types of parameters
@@ -115,7 +117,10 @@ public class Memory extends Fragment implements View.OnClickListener{
         b10.setOnClickListener(this);
         b11=(Button) myFragmentView.findViewById(R.id.button25);
         b11.setOnClickListener(this);
-
+        gameTableClick = new char[3][4];
+        gameTableDist = new int[3][4];
+        generateRandomTable();
+        initClickTable();
         return myFragmentView;
     }
 
@@ -164,6 +169,48 @@ public class Memory extends Fragment implements View.OnClickListener{
 
     }
 
+    private void generateRandomTable(){
+        int[] cuentas = new int[7];
+        for (int i=0;i<cuentas.length;i++){
+            cuentas[i]=0;
+        }
+
+        for (int i=0;i<gameTableDist.length;i++){
+            for (int a=0;a<gameTableDist[i].length;a++){
+                int aux=randInt(1, 6);
+                while (gameTableDist[i][a]==0) {
+                    if(cuentas[aux]<2) {
+                        gameTableDist[i][a] = aux;
+                        cuentas[aux]++;
+                    }
+                    aux=randInt(1, 6);
+
+                }
+            }
+        }
+    }
+
+    private void initClickTable(){
+
+        for (int i=0;i<gameTableClick.length;i++){
+            for (int a=0;a<gameTableClick[i].length;a++){
+                gameTableClick[i][a]= 'N';
+            }
+        }
+    }
+
+
+
+    private int randInt(int min, int max){
+        // Usually this can be a field rather than a method variable
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
