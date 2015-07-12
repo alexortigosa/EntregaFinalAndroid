@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CalcActivity extends BaseActivity implements View.OnClickListener {
@@ -28,10 +29,13 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
     Button bClear;
     Button bResult;
     TextView panel;
+    TextView upPanel;
     String sPanel;
-    int oldVal;
+    double oldVal;
     Boolean op;
     String operacion;
+    int lastResult;
+    int countOp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,8 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
         bClear= (Button) findViewById(R.id.buttonClear);
         bResult=(Button) findViewById(R.id.buttonDot);
         panel=(TextView) findViewById(R.id.textView7);
-
+        upPanel=(TextView) findViewById(R.id.textView4);
+        sPanel="0";
         b0.setOnClickListener(this);
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
@@ -71,11 +76,12 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
         badd.setOnClickListener(this);
         bClear.setOnClickListener(this);
         bResult.setOnClickListener(this);
-        panel=(TextView) findViewById(R.id.textView7);
-        panel.setText('0');
+        panel.setText(sPanel);
+        upPanel.setText("");
         op=false;
         oldVal=0;
         operacion="";
+        countOp=0;
     }
 
     @Override
@@ -103,7 +109,52 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
 
     private void updatePanel(){
         int b;
+        oldVal= Long.parseLong(sPanel);
+        if(op){
+            if(countOp>0) launchToast("No se pueden acumular operadores");
+            else {
+                upPanel.setText(panel.getText());
+                sPanel = "0";
+                op = false;
+                oldVal = 0;
+                countOp++;
+            }
+
+        }
         panel.setText(sPanel);
+    }
+
+    private void calcular(){
+        if(op) {
+            launchToast("Escriba otro valor para obtener el resultado");
+        }
+        else{
+            switch (operacion){
+                case "div":
+                    panel.setText(Double.toString(Double.parseDouble((String)upPanel.getText())/Double.parseDouble((String)panel.getText())));
+                    break;
+                case "add":
+                    panel.setText(Double.toString(Double.parseDouble((String)upPanel.getText())+Double.parseDouble((String)panel.getText())));
+                    break;
+                case "sub":
+                    panel.setText(Double.toString(Double.parseDouble((String)upPanel.getText())-Double.parseDouble((String)panel.getText())));
+                    break;
+                case "mul":
+                    panel.setText(Double.toString(Double.parseDouble((String)upPanel.getText())*Double.parseDouble((String)panel.getText())));
+                    break;
+                default:
+                    break;
+            }
+            countOp=0;
+        }
+    }
+
+    private void launchToast(String text){
+        CharSequence textAux = text;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(getApplicationContext(), textAux, duration);
+        toast.show();
     }
 
     @Override
@@ -116,7 +167,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     op=false;
 
                 }
-                else sPanel+= "0";
+                else{
+                    sPanel+= "0";
+
+                }
                 updatePanel();
                 break;
             case R.id.button1:
@@ -124,7 +178,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="1";
                     op=false;
                 }
-                else sPanel+= "1";
+                else {
+                    sPanel += "1";
+
+                }
                 updatePanel();
                 break;
             case R.id.button2:
@@ -132,7 +189,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="2";
                     op=false;
                 }
-                else sPanel+= "2";
+                else{
+                    sPanel+= "2";
+
+                }
                 updatePanel();
                 break;
             case R.id.button3:
@@ -140,7 +200,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="3";
                     op=false;
                 }
-                else sPanel+= "3";
+                else {
+                    sPanel+= "3";
+
+                }
                 updatePanel();
                 break;
             case R.id.button4:
@@ -148,7 +211,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="4";
                     op=false;
                 }
-                else sPanel+= "4";
+                else {
+                    sPanel+= "4";
+
+                }
                 updatePanel();
                 break;
             case R.id.button5:
@@ -156,7 +222,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="5";
                     op=false;
                 }
-                else sPanel+= "5";
+                else {
+                    sPanel+= "5";
+
+                }
                 updatePanel();
                 break;
             case R.id.button6:
@@ -164,7 +233,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="6";
                     op=false;
                 }
-                else sPanel+= "6";
+                else {
+                    sPanel+= "6";
+
+                }
                 updatePanel();
                 break;
             case R.id.button7:
@@ -172,7 +244,11 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="7";
                     op=false;
                 }
-                else sPanel+= "7";
+                else {
+                    sPanel+= "7";
+
+                }
+                updatePanel();
                 break;
             case R.id.button8:
                 if (oldVal==0 || op){
@@ -187,7 +263,10 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                     sPanel="9";
                     op=false;
                 }
-                else sPanel+= "9";
+                else {
+                    sPanel+= "9";
+
+                }
                 updatePanel();
                 break;
             case R.id.buttonClear:
@@ -198,26 +277,47 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
                 updatePanel();
                 break;
             case R.id.buttonDiv:
-                oldVal=Integer.parseInt(sPanel);
-                op=true;
-                operacion="div";
+                if(op){
+                    launchToast("No puedes acumular operaciones");
+                }
+                else {
+                    op = true;
+                    operacion = "div";
+                    updatePanel();
+                }
                 break;
             case R.id.buttonMul:
-                oldVal=Integer.parseInt(sPanel);
-                op=true;
-                operacion="mul";
+                if(op){
+                    launchToast("No puedes acumular operaciones");
+                }
+                else {
+                    op = true;
+                    operacion = "mul";
+                    updatePanel();
+                }
                 break;
             case R.id.buttonDot://Resultado
+                calcular();
                 break;
             case R.id.buttonSub:
-                oldVal=Integer.parseInt(sPanel);
-                op=true;
-                operacion="sub";
+                if(op){
+                    launchToast("No puedes acumular operaciones");
+                }
+                else {
+                    op = true;
+                    operacion = "sub";
+                    updatePanel();
+                }
                 break;
             case R.id.buttonSum:
-                oldVal=Integer.parseInt(sPanel);
-                op=true;
-                operacion="add";
+                if(op){
+                    launchToast("No puedes acumular operaciones");
+                }
+                else {
+                    op = true;
+                    operacion = "add";
+                    updatePanel();
+                }
                 break;
 
         }

@@ -33,7 +33,7 @@ public class MediaPlayerActivity extends BaseActivity implements View.OnClickLis
     private double timeElapsed = 0, finalTime = 0;
     private int forwardTime = 2000, backwardTime = 2000;
     private Handler durationHandler = new Handler();
-    private SharedPreferences settings;
+
 
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {

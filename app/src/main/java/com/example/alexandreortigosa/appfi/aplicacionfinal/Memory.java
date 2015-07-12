@@ -43,6 +43,8 @@ public class Memory extends Fragment implements View.OnClickListener{
     private Button b10;
     private Button b11;
     private View myFragmentView;
+    private char[][] gameTableClick;
+    private char[][] gameTableDist;
 
 
     // TODO: Rename and change types of parameters
@@ -113,6 +115,7 @@ public class Memory extends Fragment implements View.OnClickListener{
         b10.setOnClickListener(this);
         b11=(Button) myFragmentView.findViewById(R.id.button25);
         b11.setOnClickListener(this);
+
         return myFragmentView;
     }
 

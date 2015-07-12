@@ -17,14 +17,22 @@ import java.util.concurrent.ExecutionException;
 
 public class LoggActivity extends BaseActivity {
 
-    CustomSqlLite usdbh;
-    SQLiteDatabase db;
+    private CustomSqlLite usdbh;
+    private SQLiteDatabase db;
+    private EditText eUser;
+    private EditText ePassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v("Loggin", "Punto 1");
         setContentView(R.layout.activity_logg);
+        eUser = (EditText) findViewById(R.id.editTextUser);
+        ePassword = (EditText) findViewById(R.id.editTextPassword);
         usdbh = new CustomSqlLite(getApplicationContext(), this.dbName, null, 1);
+        if(isLogged()){
+            goSucces();
+        }
         Log.v("Loggin", "Punto 2");
         /*db = usdbh.getWritableDatabase();
         Log.v("Loggin", "Punto 3");
@@ -72,30 +80,23 @@ public class LoggActivity extends BaseActivity {
     }
 
     public void validateUser(View view) throws ExecutionException, InterruptedException {
-        /*String usuario;
-        String password;
-        EditText eUser = (EditText) findViewById(R.id.editTextUser);
-        EditText ePassword = (EditText) findViewById(R.id.editTextPassword);
-        CustomSqlLite usdbh =
-                new CustomSqlLite(this, this.dbName, null, 1);
 
-        SQLiteDatabase db = usdbh.getWritableDatabase();
-        Cursor c = db.rawQuery(" SELECT * FROM Usuarios WHERE nombre='" + eUser.getText() + "' AND password='" + ePassword.getText() + "'", null);
-        //Nos aseguramos de qu
-        // e existe al menos un registro
-        if(c.getCount()==0){
-            Intent intent = new Intent(getApplicationContext(), DeclineLoggin.class);
-            startActivity(intent);
-        }
-        else{
-            Intent intent = new Intent(getApplicationContext(), AcceptLoggin.class);
-            startActivity(intent);
-        }*/
 
         new MyTask().execute();
 
 
 
+    }
+
+    private void goSucces(){
+        Intent intent = new Intent(getApplicationContext(), AcceptLoggin.class);
+        intent.putExtra(intentUserString, eUser.getText());
+        startActivity(intent);
+    }
+
+    private void goDecline(){
+        Intent intent = new Intent(getApplicationContext(), DeclineLoggin.class);
+        startActivity(intent);
     }
 
 
@@ -120,12 +121,10 @@ public class LoggActivity extends BaseActivity {
 
             super.onPostExecute(aVoid);
             if(!aVoid){
-                Intent intent = new Intent(getApplicationContext(), DeclineLoggin.class);
-                startActivity(intent);
+                goDecline();
             }
             else{
-                Intent intent = new Intent(getApplicationContext(), AcceptLoggin.class);
-                startActivity(intent);
+                goSucces();
             }
 
         }

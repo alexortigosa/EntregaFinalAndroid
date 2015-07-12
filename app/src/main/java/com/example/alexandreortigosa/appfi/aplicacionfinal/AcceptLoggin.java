@@ -1,6 +1,7 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,35 +9,32 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class AcceptLoggin extends ActionBarActivity {
+public class AcceptLoggin extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_loggin);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_accept_loggin, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        String userString;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                userString= null;
+            } else {
+                userString= extras.getString(intentUserString);
+            }
+        } else {
+            userString= (String) savedInstanceState.getSerializable(intentUserString);
         }
 
-        return super.onOptionsItemSelected(item);
+        setLoggin(userString);
     }
+
+
+
+
+
+
 
     public void goToCalc(View v){
 
