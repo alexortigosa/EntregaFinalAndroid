@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CustomSqlLite extends SQLiteOpenHelper{
 
     String sqlCreate = "CREATE TABLE Usuarios (codigo INTEGER, nombre TEXT, password TEXT)";
+    String sqlCreateRanking = "CREATE TABLE Ranking (nombre TEXT, intentos INTEGER)";
 
     public CustomSqlLite(Context contexto, String nombre,
                                 CursorFactory factory, int version) {
@@ -21,15 +22,18 @@ public class CustomSqlLite extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         //Se ejecuta la sentencia SQL de creación de la tabla
         db.execSQL(sqlCreate);
+        db.execSQL(sqlCreateRanking);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Se elimina la versión anterior de la tabla
         db.execSQL("DROP TABLE IF EXISTS Usuarios");
+        db.execSQL("DROP TABLE IF EXISTS Ranking");
 
         //Se crea la nueva versión de la tabla
         db.execSQL(sqlCreate);
+        db.execSQL(sqlCreateRanking);
 
     }
 }

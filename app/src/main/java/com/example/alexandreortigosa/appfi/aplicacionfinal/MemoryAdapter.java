@@ -12,12 +12,16 @@ public class MemoryAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Memory", "Ranking" };
     private Context context;
+    Memory memory;
+    RankingMem ranking;
     Fragment tab = null;
 
     //creadora
     public MemoryAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+            memory=new Memory();
+            ranking=new RankingMem();
     }
 
 
@@ -32,10 +36,10 @@ public class MemoryAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                tab = new Memory();
+                tab = memory;
                 break;
             case 1:
-                tab = new RankingMem();
+                tab = ranking;
                 break;
         }
         return tab;
@@ -46,5 +50,10 @@ public class MemoryAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
         return tabTitles[position];
+    }
+
+    public void reiniciarMemory() {
+        // Generate title based on item position
+        memory.reiniciar();
     }
 }

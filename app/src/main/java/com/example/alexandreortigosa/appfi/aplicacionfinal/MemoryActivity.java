@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 
 public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFragmentInteractionListener,Memory.OnFragmentInteractionListener{
-
+    private MemoryAdapter mAdapter;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //return super.onCreateOptionsMenu(menu);
@@ -43,10 +43,11 @@ public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
+        mAdapter=new MemoryAdapter(getSupportFragmentManager(),
+                MemoryActivity.this);
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MemoryAdapter(getSupportFragmentManager(),
-                MemoryActivity.this));
+        viewPager.setAdapter(mAdapter);
 
         // Give the TabLayout the ViewPager (material)
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -55,7 +56,7 @@ public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFr
     }
 
     private void nuevoJuego(){
-        int a;
+        mAdapter.reiniciarMemory();
     }
     @Override
     public void onFragmentInteraction(Uri uri) {

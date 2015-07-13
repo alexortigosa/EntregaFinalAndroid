@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.DialogFragment;
@@ -67,6 +69,8 @@ public class Memory extends Fragment implements View.OnClickListener{
     private int countIntent;
     private int globalIntents;
     private TextView intentos;
+    private CustomSqlLite usdbh;
+    private SQLiteDatabase db;
 
 
     // TODO: Rename and change types of parameters
@@ -111,8 +115,10 @@ public class Memory extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         myFragmentView=inflater.inflate(R.layout.fragment_memory, container, false);
+        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 1);
         b0=(Button) myFragmentView.findViewById(R.id.button14);
         b0.setOnClickListener(this);
 
@@ -430,8 +436,36 @@ public class Memory extends Fragment implements View.OnClickListener{
         if (sum==0) end();
     }
     private void end(){
+        insertarPuntuacion();
         DialogFragment newDialog = new AlertaDialog();
-        newDialog.show(getActivity().getSupportFragmentManager(),"Prueba");
+        newDialog.show(getActivity().getSupportFragmentManager(), "Prueba");
+    }
+    private void insertarPuntuacion(){
+        //Instanciamos el SharedPreferences
+        SharedPreferences settings = getActivity().getSharedPreferences("myCustomApp", Context.MODE_PRIVATE);
+        //Consultamos
+        String nombre=settings.getString("user_loggin","notFound");
+        db = usdbh.getWritableDatabase();
+        if(db != null) {
+                db.execSQL("INSERT INTO Ranking (nombre, intentos) " +
+                        "VALUES ('" + nombre + "'," + globalIntents + ")");
+            }
+
+            //Cerramos la base de datos
+            db.close();
+    }
+    public void reiniciar(){
+        globalIntents=0;
+        gameTableClick = new char[4][4];
+        gameTableDist = new int[4][4];
+        prevClick = new int[2];
+        prevClick[0]=-1;
+        prevClick[1]=-1;
+        countIntent=0;
+        intentos.setText("0");
+        generateRandomTable();
+        initClickTable();
+        initImages();
     }
     private void launchToast(String text){
         CharSequence textAux = text;
@@ -503,6 +537,7 @@ public class Memory extends Fragment implements View.OnClickListener{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteractionMem(Uri uri);
+
     }
     public class MyTask extends AsyncTask<Void, Integer, Void> {
 

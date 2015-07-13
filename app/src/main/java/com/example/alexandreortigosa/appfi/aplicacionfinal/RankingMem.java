@@ -1,12 +1,16 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 
 /**
@@ -22,6 +26,10 @@ public class RankingMem extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private CustomSqlLite usdbh;
+    private SQLiteDatabase db;
+    private View myFragmentView;
+    private List<Puntuacion> puntuaciones;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,7 +72,10 @@ public class RankingMem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ranking_mem, container, false);
+        myFragmentView=inflater.inflate(R.layout.fragment_ranking_mem, container, false);
+        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 1);
+        return myFragmentView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +102,20 @@ public class RankingMem extends Fragment {
         mListener = null;
     }
 
+    public void updateRanking(){
+        db = usdbh.getWritableDatabase();
+        Cursor c = db.rawQuery(" SELECT * FROM Ranking ORDER BY intentos", null);
+        //Nos aseguramos de qu
+        // e existe al menos un registro
+        if (c.moveToFirst()){
+            puntuaciones.add(new Puntuacion(c.getString(0),c.getInt(1)));
+            while (c.moveToNext()){
+                puntuaciones.add(new Puntuacion(c.getString(0),c.getInt(1)));
+            }
+
+        }
+
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -104,6 +129,23 @@ public class RankingMem extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public class Puntuacion{
+        private String nombre;
+        private int intentos;
+
+        public Puntuacion(String name, int inten){
+            this.nombre=name;
+            this.intentos=inten;
+        }
+
+        public String getNombre(){
+            return this.nombre;
+        }
+        public int getIntentos(){
+            return this.intentos;
+        }
     }
 
 }
