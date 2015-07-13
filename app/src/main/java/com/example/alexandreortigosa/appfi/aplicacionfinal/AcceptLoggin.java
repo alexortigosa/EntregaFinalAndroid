@@ -15,19 +15,8 @@ public class AcceptLoggin extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_loggin);
-        String userString;
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                userString= null;
-            } else {
-                userString= extras.getString(intentUserString);
-            }
-        } else {
-            userString= (String) savedInstanceState.getSerializable(intentUserString);
-        }
 
-        setLoggin(userString);
+
     }
 
 

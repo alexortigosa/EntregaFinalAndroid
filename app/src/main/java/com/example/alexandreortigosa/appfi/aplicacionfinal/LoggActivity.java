@@ -91,7 +91,8 @@ public class LoggActivity extends BaseActivity {
 
     private void goSucces(){
         Intent intent = new Intent(getApplicationContext(), AcceptLoggin.class);
-        intent.putExtra(intentUserString, eUser.getText());
+        //intent.putExtra(intentUserString, eUser.getText());
+        if(!isLogged()) setLoggin( eUser.getText() + "");
         startActivity(intent);
     }
 

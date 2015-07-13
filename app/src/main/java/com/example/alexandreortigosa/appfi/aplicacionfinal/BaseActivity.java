@@ -18,6 +18,8 @@ public class BaseActivity extends ActionBarActivity {
     protected String userLoggin ="user_loggin";
     protected String Loggin = "bolLoggin";
     protected String intentUserString = "_USER_STRING_";
+    protected String imagePerfil = "imgPerfil";
+
 
     protected void setLoggin(String userString){
         //Instanciamos el SharedPreferences
@@ -32,6 +34,25 @@ public class BaseActivity extends ActionBarActivity {
         editor.apply();
     }
 
+    protected void setImage(String imageString){
+        //Instanciamos el SharedPreferences
+        settings = getSharedPreferences(prefName, 0);
+        //Obtenemos el editor
+        SharedPreferences.Editor editor = settings.edit();
+        //Editamos
+        editor.putString(this.imagePerfil, imageString);
+
+
+
+        //Guardamos los cambios
+        editor.apply();
+    }
+    protected String getUserText(){
+        //Instanciamos el SharedPreferences
+        settings = getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        //Consultamos
+        return settings.getString(this.userLoggin, "notFound");
+    }
     protected boolean isLogged(){
         //Instanciamos el SharedPreferences
         settings = getSharedPreferences(prefName, Context.MODE_PRIVATE);
