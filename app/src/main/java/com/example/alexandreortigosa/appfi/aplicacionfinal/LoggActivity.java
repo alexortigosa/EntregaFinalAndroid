@@ -29,7 +29,8 @@ public class LoggActivity extends BaseActivity {
         setContentView(R.layout.activity_logg);
         eUser = (EditText) findViewById(R.id.editTextUser);
         ePassword = (EditText) findViewById(R.id.editTextPassword);
-        usdbh = new CustomSqlLite(getApplicationContext(), this.dbName, null, 1);
+        usdbh = new CustomSqlLite(getApplicationContext(), this.dbName, null, 2);
+
         if(isLogged()){
             goSucces();
         }

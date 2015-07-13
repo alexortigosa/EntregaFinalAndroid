@@ -73,7 +73,7 @@ public class RankingMem extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myFragmentView=inflater.inflate(R.layout.fragment_ranking_mem, container, false);
-        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 1);
+        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 2);
         return myFragmentView;
 
     }

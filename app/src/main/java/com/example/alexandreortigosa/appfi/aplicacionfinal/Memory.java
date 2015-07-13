@@ -118,7 +118,7 @@ public class Memory extends Fragment implements View.OnClickListener{
 
         // Inflate the layout for this fragment
         myFragmentView=inflater.inflate(R.layout.fragment_memory, container, false);
-        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 1);
+        usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 2);
         b0=(Button) myFragmentView.findViewById(R.id.button14);
         b0.setOnClickListener(this);
 
