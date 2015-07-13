@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class CustomSqlLite extends SQLiteOpenHelper{
 
-    String sqlCreate = "CREATE TABLE IF NOT EXISTS Usuarios (codigo INTEGER, nombre TEXT, password TEXT)";
-    String sqlCreateRanking = "CREATE TABLE IF NOT EXISTS Ranking (nombre TEXT, intentos INTEGER)";
+    String sqlCreate = "CREATE TABLE Usuarios (codigo INTEGER, nombre TEXT, password TEXT)";
+    String sqlCreateRanking = "CREATE TABLE Ranking (nombre TEXT, intentos INTEGER)";
 
     public CustomSqlLite(Context contexto, String nombre,
                                 CursorFactory factory, int version) {

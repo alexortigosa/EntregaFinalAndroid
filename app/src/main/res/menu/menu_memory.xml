@@ -4,4 +4,6 @@
     tools:context="com.example.alexandreortigosa.appfi.aplicacionfinal.MemoryActivity">
     <item android:id="@+id/action_nuevojuego" android:title="Nuevo Juego"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_resetranking" android:title="Reset Ranking"
+        android:orderInCategory="110" app:showAsAction="never" />
 </menu>

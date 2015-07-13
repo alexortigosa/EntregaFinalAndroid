@@ -16,5 +16,8 @@
     <string name="title_activity_gps">GPSActivity</string>
     <string name="cancel">Cancelar</string>
     <string name="fire">Ok</string>
+    <string name="id">Id</string>
+    <string name="valor">Valor</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
 
 </resources>

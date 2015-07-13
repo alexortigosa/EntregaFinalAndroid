@@ -56,4 +56,12 @@ public class MemoryAdapter extends FragmentPagerAdapter {
         // Generate title based on item position
         memory.reiniciar();
     }
+    public void resetRank() {
+        // Generate title based on item position
+        ranking.clearRanking();
+    }
+    public void updateRank() {
+        // Generate title based on item position
+        ranking.updateAdapterRank();
+    }
 }

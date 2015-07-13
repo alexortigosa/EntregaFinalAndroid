@@ -56,7 +56,7 @@ public class AcceptLoggin extends BaseActivity {
 
     public void goToGPS(View v){
 
-        Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
         startActivity(intent);
     }
 }

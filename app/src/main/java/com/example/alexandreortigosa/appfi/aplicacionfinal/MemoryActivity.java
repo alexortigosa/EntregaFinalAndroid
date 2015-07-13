@@ -30,6 +30,8 @@ public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFr
 
             case R.id.action_nuevojuego:
                 nuevoJuego();
+            case R.id.action_resetranking:
+                resetRank();
 
             default:
                 return true;
@@ -58,6 +60,14 @@ public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFr
     private void nuevoJuego(){
         mAdapter.reiniciarMemory();
     }
+
+    private void resetRank(){
+        mAdapter.resetRank();
+    }
+
+    public void updateRank(){
+        mAdapter.updateRank();
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -66,5 +76,10 @@ public class MemoryActivity extends ActionBarActivity implements RankingMem.OnFr
     @Override
     public void onFragmentInteractionMem(Uri uri) {
 
+    }
+
+    @Override
+    public void onFragmentInteractionFinished() {
+        updateRank();
     }
 }

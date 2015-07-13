@@ -53,7 +53,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="GPS"
+                android:text="Perfil"
                 android:id="@+id/button13"
                 android:layout_weight="1"
                 android:onClick="goToGPS"/>

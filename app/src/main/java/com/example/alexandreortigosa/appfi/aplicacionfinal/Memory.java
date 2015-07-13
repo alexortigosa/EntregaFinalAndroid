@@ -437,6 +437,7 @@ public class Memory extends Fragment implements View.OnClickListener{
     }
     private void end(){
         insertarPuntuacion();
+        mListener.onFragmentInteractionFinished();
         DialogFragment newDialog = new AlertaDialog();
         newDialog.show(getActivity().getSupportFragmentManager(), "Prueba");
     }
@@ -537,6 +538,7 @@ public class Memory extends Fragment implements View.OnClickListener{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteractionMem(Uri uri);
+        public void onFragmentInteractionFinished();
 
     }
     public class MyTask extends AsyncTask<Void, Integer, Void> {

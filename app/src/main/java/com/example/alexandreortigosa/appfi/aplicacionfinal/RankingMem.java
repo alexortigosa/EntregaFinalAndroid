@@ -1,15 +1,25 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +40,17 @@ public class RankingMem extends Fragment {
     private SQLiteDatabase db;
     private View myFragmentView;
     private List<Puntuacion> puntuaciones;
+    TableLayout tabla;
+    TableLayout cabecera;
+    LinearLayout tabCust;
+    LinearLayout.LayoutParams layoutFila;
+    LinearLayout.LayoutParams layoutId;
+    LinearLayout.LayoutParams layoutTexto;
+    private int MAX_FILAS = 10;
+    ListView listView ;
+    CustomAdapter cadapter;
+
+    Resources rs;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,6 +95,22 @@ public class RankingMem extends Fragment {
         // Inflate the layout for this fragment
         myFragmentView=inflater.inflate(R.layout.fragment_ranking_mem, container, false);
         usdbh = new CustomSqlLite(getActivity().getApplicationContext(), "DBUsuarios", null, 2);
+        puntuaciones = new ArrayList<Puntuacion>();
+        updateRanking();
+        rs = getActivity().getApplicationContext().getResources();
+        //tabla = (TableLayout)myFragmentView.findViewById(R.id.tabla);
+        //cabecera = (TableLayout)myFragmentView.findViewById(R.id.cabecera);
+        layoutFila = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutId = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutTexto = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        tabCust= (LinearLayout) myFragmentView.findViewById(R.id.CustomTable);
+        cadapter = new CustomAdapter();
+        //agregarCabecera();
+        //agregarFilasTabla();
+        //agregarFilasCustom();
+        listView = (ListView) myFragmentView.findViewById(R.id.listView);
+        listView.setAdapter(cadapter);
         return myFragmentView;
 
     }
@@ -116,6 +153,30 @@ public class RankingMem extends Fragment {
         }
 
     }
+
+    public void updateAdapterRank() {
+        // Generate title based on item position
+        updateRanking();
+        cadapter.refreshData();
+        cadapter.notifyDataSetChanged();
+
+    }
+
+
+    public List<Puntuacion> getPuntuaciones(){
+        return puntuaciones;
+    }
+
+    public void clearRanking(){
+        puntuaciones.clear();
+        cadapter.cleanData();
+        cadapter.notifyDataSetChanged();
+        db = usdbh.getWritableDatabase();
+        db.execSQL(" DELETE FROM Ranking");
+
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -146,6 +207,54 @@ public class RankingMem extends Fragment {
         public int getIntentos(){
             return this.intentos;
         }
+    }
+
+    public class CustomAdapter extends BaseAdapter {
+        List<Puntuacion> punts = getPuntuaciones();
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return punts.size();
+        }
+
+        @Override
+        public Object getItem(int arg0) {
+            // TODO Auto-generated method stub
+            return punts.get(arg0);
+        }
+
+        @Override
+        public long getItemId(int arg0) {
+            // TODO Auto-generated method stub
+            return arg0;
+        }
+
+        @Override
+        public View getView(int arg0, View arg1, ViewGroup arg2) {
+            if(arg1==null)
+            {
+                LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                arg1 = inflater.inflate(R.layout.listitem, arg2,false);
+            }
+
+            TextView rankingName = (TextView)arg1.findViewById(R.id.rankingName);
+            //TextView rankingInt = (TextView)arg1.findViewById(R.id.rankingIntentos);
+
+            Puntuacion punt = punts.get(arg0);
+
+            rankingName.setText(punt.getNombre()+"..............................."+punt.getIntentos());
+            //rankingInt.setText(punt.getIntentos()+"");
+
+            return arg1;
+        }
+
+        public void cleanData(){
+            punts.clear();
+        }
+        public void refreshData(){
+            punts= getPuntuaciones();
+        }
+
     }
 
 }
