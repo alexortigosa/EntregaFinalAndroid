@@ -33,6 +33,7 @@ public class BaseActivity extends ActionBarActivity {
     protected String Loggin = "bolLoggin";
     protected String intentUserString = "_USER_STRING_";
     protected String imagePerfil = "imgPerfil";
+    protected String notiMode = "notiMode";
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
@@ -65,6 +66,24 @@ public class BaseActivity extends ActionBarActivity {
 
         //Guardamos los cambios
         editor.apply();
+    }
+
+    protected void setNotiMode(int i){
+        //Instanciamos el SharedPreferences
+        settings = getSharedPreferences(prefName, 0);
+        //Obtenemos el editor
+        SharedPreferences.Editor editor = settings.edit();
+        //Editamos
+        editor.putInt(this.notiMode, i);
+        //Guardamos los cambios
+        editor.apply();
+    }
+
+    protected int getNotiMode(){
+        //Instanciamos el SharedPreferences
+        settings = getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        //Consultamos
+        return settings.getInt(this.notiMode,0);
     }
 
     /** Create a file Uri for saving an image or video */

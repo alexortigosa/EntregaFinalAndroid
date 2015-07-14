@@ -18,6 +18,15 @@ import android.widget.Toast;
 
 
 public class CalcActivity extends BaseActivity implements View.OnClickListener {
+    String keyPanleUp="pnelSuperior";
+    String keyPanel="panel";
+    String keySPanel="sPanel";
+    String keyOldVal="oldValDouble";
+    String keyOpBool="opBoolean";
+    String keyOperacion="operacion";
+    String ketLastResul="lastResult";
+    String keyCountOp="cuentaOp";
+    String ketStateNot="stateNot";
 
     Button b0;
     Button b1;
@@ -90,6 +99,46 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
         oldVal=0;
         operacion="";
         countOp=0;
+        stateNot=getNotiMode();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(keyPanleUp,upPanel.getText()+"");
+
+        outState.putString(keyPanel, panel.getText() + "");
+
+        outState.putString(keySPanel, sPanel);
+
+        outState.putDouble(keyOldVal, oldVal);
+
+        outState.putBoolean(keyOpBool, op);
+
+        outState.putString(keyOperacion,operacion);
+
+        outState.putInt(ketLastResul,lastResult);
+
+        outState.putInt(keyCountOp,countOp);
+
+        outState.putInt(ketStateNot,stateNot);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        upPanel.setText(savedInstanceState.getString(keyPanleUp));
+        panel.setText(savedInstanceState.getString(keyPanel));
+        sPanel=savedInstanceState.getString(keySPanel);
+        oldVal=savedInstanceState.getDouble(keyOldVal);
+        op=savedInstanceState.getBoolean(keyOpBool);
+        operacion=savedInstanceState.getString(keyOperacion);
+        lastResult=savedInstanceState.getInt(ketLastResul);
+        countOp=savedInstanceState.getInt(keyCountOp);
+        stateNot=savedInstanceState.getInt(ketStateNot);
+
     }
 
     @Override
@@ -97,6 +146,11 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_calc, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -131,6 +185,7 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setNotificationMode(int i){
+        setNotiMode(i);
         stateNot=i;
     }
 
