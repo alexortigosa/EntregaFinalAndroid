@@ -3,6 +3,9 @@ package com.example.alexandreortigosa.appfi.aplicacionfinal;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 
@@ -21,6 +27,8 @@ public class LoggActivity extends BaseActivity {
     private SQLiteDatabase db;
     private EditText eUser;
     private EditText ePassword;
+    ImageView image;
+    private Bitmap bmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,32 +38,32 @@ public class LoggActivity extends BaseActivity {
         eUser = (EditText) findViewById(R.id.editTextUser);
         ePassword = (EditText) findViewById(R.id.editTextPassword);
         usdbh = new CustomSqlLite(getApplicationContext(), this.dbName, null, 2);
+        image = (ImageView) findViewById(R.id.imageView2);
+
+
 
         if(isLogged()){
             goSucces();
         }
-        Log.v("Loggin", "Punto 2");
-        /*db = usdbh.getWritableDatabase();
-        Log.v("Loggin", "Punto 3");
-
-        //Si hemos abierto correctamente la base de datos
-        if(db != null) {
-            //Insertamos 5 usuarios de ejemplo
-            for (int i = 1; i <= 5; i++) {
-                //Generamos los datos
-                int codigo = i;
-                String nombre = "Alex" + i;
-                String password = Integer.toString(i);
-
-                //Insertamos los datos en la tabla Usuarios
-                db.execSQL("INSERT INTO Usuarios (codigo, nombre, password) " +
-                        "VALUES (" + codigo + ", '" + nombre + "','" + password + "')");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    InputStream in = new URL("http://img3.wikia.nocookie.net/__cb20111019225432/es.gta/images/2/24/Android_Logo.png").openStream();
+                    bmp = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    // log error
+                }
+                return null;
             }
 
-            //Cerramos la base de datos
-            db.close();
-        }
-        Log.v("Loggin", "Punto 4");*/
+            @Override
+            protected void onPostExecute(Void result) {
+                if (bmp != null)
+                    image.setImageBitmap(bmp);
+            }
+
+        }.execute();
     }
 
     @Override
@@ -88,6 +96,8 @@ public class LoggActivity extends BaseActivity {
 
 
     }
+
+
 
     private void goSucces(){
         Intent intent = new Intent(getApplicationContext(), AcceptLoggin.class);
