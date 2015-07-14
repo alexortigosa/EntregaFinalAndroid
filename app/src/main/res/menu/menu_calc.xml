@@ -1,7 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.alexandreortigosa.appfi.aplicacionfinal.CalcActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    tools:context="com.example.alexandreortigosa.appfi.aplicacionfinal.CalcActivity" app:showAsAction="ifRoom" android:icon="@drawable/ic_launcher">
+
+    <item android:id="@+id/action_notificaciones" android:title="Modo Notificacion"
+        android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/ic_launcher">
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:id="@+id/action_toast" android:title="Toast"
+                android:orderInCategory="101" app:showAsAction="never" android:icon="@drawable/ic_launcher"/>
+            <item android:id="@+id/action_estado" android:title="Estado"
+                android:orderInCategory="102" app:showAsAction="never" android:icon="@drawable/ic_launcher"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/action_llamar" android:title="Llamar"
+        android:orderInCategory="120" app:showAsAction="never"/>
+
+    <item android:id="@+id/action_navegador" android:title="Abrir navegador"
+        android:orderInCategory="120" app:showAsAction="never" />
 </menu>

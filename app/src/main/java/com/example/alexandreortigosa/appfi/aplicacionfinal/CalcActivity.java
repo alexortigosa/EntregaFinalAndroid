@@ -1,7 +1,14 @@
 package com.example.alexandreortigosa.appfi.aplicacionfinal;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +43,7 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
     String operacion;
     int lastResult;
     int countOp;
+    int stateNot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +110,41 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
         if (id == R.id.action_settings) {
             return true;
         }
+        switch (id){
+            case R.id.action_toast:
+                setNotificationMode(0);
+                break;
+            case R.id.action_estado:
+                setNotificationMode(1);
+                break;
+            case R.id.action_llamar:
+                llamar();
+                break;
+            case R.id.action_navegador:
+                navegador();
+                break;
+            default:
+                break;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void setNotificationMode(int i){
+        stateNot=i;
+    }
 
+    private void llamar(){
+        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+        phoneIntent.setData(Uri.parse("tel:"+panel.getText()));
+        startActivity(phoneIntent);
+    }
+    private void navegador(){
+        String url = "http://www.alexortigosa.es";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
     private void updatePanel(){
         int b;
         oldVal= Long.parseLong(sPanel);
@@ -150,11 +188,56 @@ public class CalcActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void launchToast(String text){
-        CharSequence textAux = text;
-        int duration = Toast.LENGTH_SHORT;
+        if(stateNot==0) {
+            CharSequence textAux = text;
+            int duration = Toast.LENGTH_SHORT;
 
-        Toast toast = Toast.makeText(getApplicationContext(), textAux, duration);
-        toast.show();
+            Toast toast = Toast.makeText(getApplicationContext(), textAux, duration);
+            toast.show();
+        }
+        else if (stateNot==1){
+            //Entero que nos permite identificar la notificación
+            int mId = 1;
+            //Instanciamos Notification Manager
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+            // Para la notificaciones, en lugar de crearlas directamente, lo hacemos mediante
+            // un Builder/contructor.
+            android.support.v4.app.NotificationCompat.Builder mBuilder =
+                    new android.support.v4.app.NotificationCompat.Builder(getApplicationContext())
+                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setContentTitle("Calculadora")
+                            .setContentText(text);
+
+
+            // Creamos un intent explicito, para abrir la app desde nuestra notificación
+            Intent resultIntent = new Intent(getApplicationContext(), CalcActivity.class);
+
+            //El objeto stack builder contiene una pila artificial para la Acitivty empezada.
+            //De esta manera, aseguramos que al navegar hacia atrás
+            //desde la Activity nos lleve a la home screen.
+
+            //Desde donde la creamos
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            // Añade la pila para el Intent,pero no el intent en sí
+            stackBuilder.addParentStack(CalcActivity.class);
+            // Añadimos el intent que empieza la activity que está en el top de la pila
+            stackBuilder.addNextIntent(resultIntent);
+
+            //El pending intent será el que se ejecute cuando la notificación sea pulsada
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            mBuilder.setContentIntent(resultPendingIntent);
+
+            // mId nos permite actualizar las notificaciones en un futuro
+            // Notificamos
+            mNotificationManager.notify(mId, mBuilder.build());
+        }
     }
 
     @Override
