@@ -12,15 +12,14 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="122dp"
-        android:layout_weight="0.16">
+        android:layout_height="89dp">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/red_buttn"
             style="@style/button_text"
-            android:text="Selecc. Foto"
+            android:text="Seleccionar Foto"
             android:id="@+id/button30"
             android:layout_weight="1" />
 

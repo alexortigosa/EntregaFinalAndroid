@@ -242,7 +242,7 @@ public class RankingMem extends Fragment {
 
             Puntuacion punt = punts.get(arg0);
 
-            rankingName.setText(punt.getNombre()+"..............................."+punt.getIntentos());
+            rankingName.setText(punt.getNombre()+"                                                           "+punt.getIntentos());
             //rankingInt.setText(punt.getIntentos()+"");
 
             return arg1;

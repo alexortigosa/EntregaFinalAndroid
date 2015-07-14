@@ -23,6 +23,22 @@ public class CustomSqlLite extends SQLiteOpenHelper{
         //Se ejecuta la sentencia SQL de creación de la tabla
         db.execSQL(sqlCreate);
         db.execSQL(sqlCreateRanking);
+
+        if (db != null) {
+            //Insertamos 5 usuarios de ejemplo
+            for (int i = 1; i <= 5; i++) {
+                //Generamos los datos
+                int codigo = i;
+                String nombre = "Alex" + i;
+                String password = Integer.toString(i);
+
+                //Insertamos los datos en la tabla Usuarios
+                db.execSQL("INSERT INTO Usuarios (codigo, nombre, password) " +
+                        "VALUES (" + codigo + ", '" + nombre + "','" + password + "')");
+            }
+
+
+        }
     }
 
     @Override
